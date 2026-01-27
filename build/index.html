@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <!DOCTYPE html>
+
+    <script src='./script.js'></script>
+    <link rel="stylesheet" type="text/css" href="./style.css"/>
+
+    <title>Minecraft Statistics DataFixer</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    
+  </head>
+
+  <body>
+      <div id="usage">
+        <h2>Usage</h2>
+        <h4>File Name</h4>
+        <p>From 13w36a - 1.7.5/14w05b the game used the player's name as the name of the statistics file, this was
+          then changed to the player's UUID to allow for players to change their name and still be able to keep their all
+          their data. 
+        </p>
+
+        <p>Thankfully Mojang did implement a datafixer for this - besides a small gap in 18w03a to 18w19b (1.13)?
+          - and with it always being the first thing that gets datafixed once upgrading you can always name the outputted 
+          file a player's name and the game will rename it to the correct version, if necessary.
+        </p>
+      </div>
+
+      <div id="datafixer"">
+
+        <label>Target Version</label>
+          <select id="TargetVer">
+            <option value="1">13w37a (1.7.2) - 1.7.10 / 14w05b (1.8)</option>
+            <option value="2">14w06a (1.8) - 1.10.2</option>
+            <option value="3">16w32a - 16w35a (1.11)</option>
+            <option value="4">16w36a (1.11) - 17w46a (1.13)</option>
+          </select> 
+
+          
+          <label for="fileInput" class="custom-file-upload">Open Statistics File</label>
+          <input id="fileInput" type="file" onchange="filePreview()"/>
+          
+          <p id="filePreviewName"></p>
+          <pre id="filePreview" style="font-size: smaller; padding: 0px 20px;"></pre>
+          
+        <button id="dataFix" onclick="Load()">Start DataFixerUpper</button>
+
+      </div>
+
+      <div id="explanation">
+
+        <h2>Explanations</h2>
+        <h4>Unlit Redstone Torch</h4>
+        <p>In 13w36a/b (1.7.2) the redstone torch statistics uses the unlit version 
+          <a href="https://mcdf.wiki.gg/wiki/Java_Edition:Unlit_Redstone_Torch_(Item)"> which is then deleted in 13w37a</a>
+          causing all their corresponding statistics to be deleted as well.
+        </p>
+
+        <h4>Namesapce IDs</h4>
+        <p>In 14w03a (1.8) minecraft switched from numerical to namespace - I.e <code>#0003</code> into <code>minecraft:dirt</code> - 
+          for blocks and items, this occurred for statistics in 14w06a, mojang never added a datafixer ever for upgrading numeric
+          IDs deleting all blocks and items once upgrading after 14w05b.
+        </p>
+
+        <h4>Entity Rename</h4>
+        <p>In 16w32a (1.11) entity names were changed from <a href="https://en.wikipedia.org/wiki/Camel_case">UpperCamelCase</a> 
+          to <a href="https://en.wikipedia.org/wiki/Snake_case">lower_snake_case</a> and the statistics followed suit but
+          they failed to add a datafixer for these which means once upgrading all entity killed and killed by statistics 
+          are deleted.
+        </p>
+
+        <h4>Entity Rename Reverted</h3>
+        <p>
+          The entity renames for the statistics then later gets reverted in 16w36a (1.11) back to the old format but with the 
+          mobs that became seperate use their new names: this effects horses, donkeys, mules, skeleton horses and zombie horses 
+          all being seperated from <code>EntityHorse</code>, skeletons, wither skeletons and strays from <code>Skeleton</code> and zombies, 
+          zombie villagers and husks from <code>Zombie</code> all into their own seperate entities instead of being a tag on the base entity. 
+        </p>
+        <p>
+          Due to skeleton and zombies still having the same name from before the original changes, they upgrade to 16w36a and beyond perfectly
+          but horses do not, meaning no matter what, when upgrading to versions after 1.10.2 it will always delete the kills and killed by horse
+          statistics.
+        </p>
+      </div>
+
+  </body>
+</html>
