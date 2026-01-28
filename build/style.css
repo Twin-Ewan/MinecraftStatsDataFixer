@@ -27,7 +27,11 @@ button, .custom-file-upload {
     border-color: darkgrey darkslategrey darkslategrey darkgrey;
     border-style: solid;
     border-width: 3px;
+    border-radius: 2px;
 
+    /* Fake black border to surround actual border*/
+    box-shadow: 0px 0px 0px 2px black;
+    
     cursor: pointer;
 
     font-size: 20px;
@@ -59,6 +63,10 @@ div {
     border-color: white grey grey white;
     border-style: solid;
     border-width: 3px;
+    border-radius: 2px;
+
+    /* Fake black border to surround actual border*/
+    box-shadow: 0px 0px 0px 2px black;
 
     padding: 10px 20px;
     margin: 2px auto;
