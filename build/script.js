@@ -199,7 +199,6 @@ function Save(statFile) {
 }
 function DataFixerUpper(statFile) {
     let VerIndex = TargetVer.valueOf() + 1;
-    console.log(VerIndex);
     if (VerIndex > 0) // 13w37a - 1.7.10/14w05b numeric
      {
         // Unlit torch into a lit torch
@@ -235,7 +234,6 @@ function DataFixerUpper(statFile) {
     }
     if (VerIndex > 3) // entity camelcase (reverted)
      {
-        console.log("1.11");
         // Converts all the entities into the old format
         for (let i = 0; i < EntityLowerSnakecase.length; i++) {
             statFile = statFile.replace("stat.killEntity.minecraft:" + EntityLowerSnakecase[i], "stat.killEntity." + EntityUpperCamelCase[i]);
@@ -243,8 +241,8 @@ function DataFixerUpper(statFile) {
         }
         // horses (and skeletons and zombies) are split into seperate entities but the horse specifically has a new name
         // so this fixed that in particular
-        statFile = statFile.replace("stat.killEntity.minecraft:EntityHorse", "stat.killEntity.Horse");
-        statFile = statFile.replace("stat.entityKilledBy.minecraft:EntityHorse", "stat.entityKilledBy.Horse");
+        statFile = statFile.replace("stat.killEntity.EntityHorse", "stat.killEntity.Horse");
+        statFile = statFile.replace("stat.entityKilledBy.EntityHorse", "stat.entityKilledBy.Horse");
     }
     Save(statFile);
 }

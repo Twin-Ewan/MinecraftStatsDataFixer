@@ -281,8 +281,8 @@ function DataFixerUpper(statFile: string)
         
         // horses (and skeletons and zombies) are split into seperate entities but the horse specifically has a new name
         // so this fixed that in particular
-        statFile = statFile.replace("stat.killEntity.minecraft:EntityHorse", "stat.killEntity.Horse");
-        statFile = statFile.replace("stat.entityKilledBy.minecraft:EntityHorse", "stat.entityKilledBy.Horse");
+        statFile = statFile.replace("stat.killEntity.EntityHorse", "stat.killEntity.Horse");
+        statFile = statFile.replace("stat.entityKilledBy.EntityHorse", "stat.entityKilledBy.Horse");
     }
 
     Save(statFile)
