@@ -5,6 +5,7 @@ body {
 	align-items:center;
     
     background-image: url("Background.png");
+    background-color: #422F20;
 }
 
 h4 {
@@ -66,7 +67,7 @@ div {
 #explanation, #usage {
     display: block;
     float: right;
-    margin: 2px 4px;
+    margin: 2px 10px;
 
     width: 400px;
 }

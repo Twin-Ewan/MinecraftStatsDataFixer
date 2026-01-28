@@ -16,7 +16,7 @@
       <div id="usage">
         <h2>Usage</h2>
         <h4>File Name</h4>
-        <p>From 13w36a - 1.7.5/14w05b the game used the player's name as the name of the statistics file, this was
+        <p>From 13w36a to 1.7.5/14w05b the game used the player's name as the name of the statistics file, this was
           then changed to the player's UUID to allow for players to change their name and still be able to keep their all
           their data. 
         </p>
@@ -53,20 +53,20 @@
         <h2>Explanations</h2>
         <h4>Unlit Redstone Torch</h4>
         <p>In 13w36a/b (1.7.2) the redstone torch statistics uses the unlit version 
-          <a href="https://mcdf.wiki.gg/wiki/Java_Edition:Unlit_Redstone_Torch_(Item)"> which is then deleted in 13w37a</a>
-          causing all their corresponding statistics to be deleted as well.
+          <a href="https://mcdf.wiki.gg/wiki/Java_Edition:Unlit_Redstone_Torch_(Item)"> which then got deleted in 13w37a</a>
+          causing all their corresponding statistics to be deleted along side.
         </p>
 
-        <h4>Namesapce IDs</h4>
-        <p>In 14w03a (1.8) minecraft switched from numerical to namespace - I.e <code>#0003</code> into <code>minecraft:dirt</code> - 
-          for blocks and items, this occurred for statistics in 14w06a, mojang never added a datafixer ever for upgrading numeric
-          IDs deleting all blocks and items once upgrading after 14w05b.
+        <h4>Namespace IDs</h4>
+        <p>In 14w03a (1.8) minecraft started its switch from numerical to namespace - I.e <code>#0003</code> into 
+          <code>minecraft:dirt</code> - for blocks and items, this hit the statistics in 14w06a but Mojang never added a 
+          datafixer ever for upgrading numeric IDs deleting all blocks and items once upgrading after 14w05b.
         </p>
 
         <h4>Entity Rename</h4>
         <p>In 16w32a (1.11) entity names were changed from <a href="https://en.wikipedia.org/wiki/Camel_case">UpperCamelCase</a> 
-          to <a href="https://en.wikipedia.org/wiki/Snake_case">lower_snake_case</a> and the statistics followed suit but
-          they failed to add a datafixer for these which means once upgrading all entity killed and killed by statistics 
+          to <a href="https://en.wikipedia.org/wiki/Snake_case">lower_snake_case</a> and the statistics followed suit, but
+          they failed to add a datafixer for these meaning once upgrading, all entity killed and killed by statistics 
           are deleted.
         </p>
 
@@ -78,8 +78,8 @@
           zombie villagers and husks from <code>Zombie</code> all into their own seperate entities instead of being a tag on the base entity. 
         </p>
         <p>
-          Due to skeleton and zombies still having the same name from before the original changes, they upgrade to 16w36a and beyond perfectly
-          but horses do not, meaning no matter what, when upgrading to versions after 1.10.2 it will always delete the kills and killed by horse
+          Due to skeleton and zombies still having the same name from before the changes, they upgrade to 16w36a and beyond perfectly fine
+          but the horses do not, meaning no matter what, when upgrading to versions after 1.10.2 it will always delete the kills and killed by horse
           statistics.
         </p>
       </div>
