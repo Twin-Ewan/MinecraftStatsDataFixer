@@ -5,6 +5,7 @@ enum VerRanges
     CamelCase = 3, /* 16w32a - 16w35a */
     EntityRevert = 4, /* 16w36a - 17w46a */
     Flattening = 5, /* 17w47a */
+    HardenedClay = 7, /* 17w47b - 1.13pre4 */
 }
 
 let TargetVer: VerRanges;
@@ -148,6 +149,31 @@ let EntityUpperCamelCase: string[] = ["Arrow", "Bat", "Boat", "Blaze",
     "SmallFireball", "SpectralArrow", "WitherSkull"
 ];
 
+let GeneralStatUpper: string[] = ["beaconInteraction", "cakeSlicesEaten",
+    "horseOneCm", "pigOneCm", "leaveGame", "bannerCleaned", "swimOneCm",
+    "climbOneCm", "enderchestOpened", "hopperInspected", "cauldronFilled",
+    "trappedChestTriggered", "furnaceInteraction", "talkedToVillager",
+    "noteblockPlayed", "sprintOneCm", "deaths", "drop", "fishCaught", "diveOneCm",
+    "chestOpened", "recordPlayed", "jump", "fallOneCm", "crouchOneCm", 
+    "craftingTableInteraction", "dropperInspected", "boatOneCm", "brewingstandInteraction",
+    "dispenserInspected", "tradedWithVillager", "noteblockTuned", "cauldronUsed",
+    "damageDealt", "sleepInBed", "flowerPotted", "walkOneCm", "animalsBred", "playerKills",
+    "minecartOneCm", "shulkerBoxOpened", "itemEnchanted", "mobKills", "sneakTime",
+    "armorCleaned", "playOneMinute", "timeSinceDeath", "flyOneCm"]
+
+let GeneralStatLower: string[] = ["interact_with_beacon", "eat_cake_slice",
+    "horse_one_cm", "pig_one_cm", "leave_game", "clean_banner", "swim_one_cm",
+    "climb_one_cm", "open_enderchest", "inspect_hopper", "fill_cauldron",
+    "trigger_trapped_chest", "interact_with_furnace", "talked_to_villager",
+    "play_noteblock", "sprint_one_cm", "deaths" ,"drop", "fish_caught", 
+    "walk_under_water_one_cm", "open_chest", "play_record", "jump", "fall_one_cm",
+    "crouch_one_cm", "interact_with_crafting_table", "inspect_dropper", "boat_one_cm",
+    "interact_with_brewingstand", "inspect_dispenser", "traded_with_villager",
+    "tune_noteblock", "use_cauldron", "damage_dealt", "sleep_in_bed", "pot_flower",
+    "walk_one_cm", "animals_bred", "player_kills", "minecart_one_cm", "open_shulker_box",
+    "enchant_item", "mob_kills", "sneak_time", "clean_armor", "play_one_minute", 
+    "time_since_death", "fly_one_cm",]
+
 async function filePreview() {
     var files = (document.getElementById("fileInput") as HTMLInputElement).files;
     if(!files)
@@ -286,7 +312,8 @@ function DataFixerUpper(statFile: string)
         statFile = statFile.replace("stat.entityKilledBy.EntityHorse", "stat.entityKilledBy.Horse");
     }
 
-    if(VerIndex > 4) // Flattening rework
+    // DataVersion was added in 17w47a meaning any file that includes it is already in the new format.
+    if(VerIndex > 4 && !statFile.includes("DataVersion")) // Flattening rework
     {
         let statFileJSON = JSON.stringify(JSON.parse(statFile), null, 2);
         statFile = statFileJSON;
@@ -338,10 +365,35 @@ function DataFixerUpper(statFile: string)
                         killedby.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
                         break;
                     }
+
+                default:
+                {
+                    if(!formatedLine[0].includes("stat")) break;
+                    custom.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
+                }
             }
         }
 
         let flatteningStatFile: string = "{ \"stats\": {";
+
+        if(custom.length)
+        {
+            flatteningStatFile += "\"minecraft:custom\": {";
+
+            for(let i = 0; i < custom.length; i++)
+            {
+                for(let j = 0; j < GeneralStatLower.length; j++)
+                {
+                    custom[i] = custom[i].replace(GeneralStatUpper[j].toLowerCase(), GeneralStatLower[j]);
+                }
+
+                flatteningStatFile += custom[i];
+            }
+
+            // Removes extra comma at the end off each section
+            flatteningStatFile = flatteningStatFile.substring(0, flatteningStatFile.length - 1);
+            flatteningStatFile += "},";
+        }
         
         if(used.length)
         {
@@ -406,6 +458,15 @@ function DataFixerUpper(statFile: string)
         // Removes extra comma at the end off each section
         statFile = flatteningStatFile.substring(0, flatteningStatFile.length - 1);
         statFile += "}, \"DataVersion\": 1451}"; // Manual dataversion due to existing for only 1 update
+
+        // Odd items for flattenings
+        statFile = statFile.replace("minecraft:spawn_egg", "minecraft:pig_spawn_egg")
+
+    }
+
+    if(VerIndex > 5) // hardened clay into terracota
+    {
+        statFile = statFile.replace("minecraft:hardened_clay", "minecraft:terracotta")
     }
 
     Save(statFile)
