@@ -5,6 +5,7 @@ var VerRanges;
     VerRanges[VerRanges["Namespace"] = 2] = "Namespace";
     VerRanges[VerRanges["CamelCase"] = 3] = "CamelCase";
     VerRanges[VerRanges["EntityRevert"] = 4] = "EntityRevert";
+    VerRanges[VerRanges["Flattening"] = 5] = "Flattening";
 })(VerRanges || (VerRanges = {}));
 let TargetVer;
 let statFileName;
@@ -157,7 +158,7 @@ async function filePreview() {
             var Preview = document.getElementById("filePreview");
             Preview.innerHTML = previewJSON.toString();
             Preview.style.maxHeight = "400px";
-            Preview.style.maxWidth = "500px";
+            Preview.style.width = "500px";
             Preview.style.overflowY = "scroll";
             Preview.style.overflowX = "auto";
         }
@@ -243,6 +244,96 @@ function DataFixerUpper(statFile) {
         // so this fixed that in particular
         statFile = statFile.replace("stat.killEntity.EntityHorse", "stat.killEntity.Horse");
         statFile = statFile.replace("stat.entityKilledBy.EntityHorse", "stat.entityKilledBy.Horse");
+    }
+    if (VerIndex > 4) // Flattening rework
+     {
+        let statFileJSON = JSON.stringify(JSON.parse(statFile), null, 2);
+        statFile = statFileJSON;
+        let used = [], crafted = [], dropped = [], pickedup = [], killed = [], killedby = [], custom = [];
+        // Regex is a scary thing, thankfully there are braver people than me
+        // https://stackoverflow.com/questions/55218064
+        for (let line of statFileJSON.split(/[\r\n]+/)) {
+            line = line.toLowerCase();
+            let formatedLine = line.split(".");
+            switch (formatedLine[1]) {
+                case "useitem":
+                    {
+                        used.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
+                        break;
+                    }
+                case "craftitem":
+                    {
+                        crafted.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
+                        break;
+                    }
+                case "drop":
+                    {
+                        dropped.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
+                        break;
+                    }
+                case "pickup":
+                    {
+                        pickedup.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
+                        break;
+                    }
+                case "killentity":
+                    {
+                        killed.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
+                        break;
+                    }
+                case "entitykilledby":
+                    {
+                        killedby.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
+                        break;
+                    }
+            }
+        }
+        let flatteningStatFile = "{ \"stats\": {";
+        if (used.length) {
+            flatteningStatFile += "\"minecraft:used\": {";
+            used.forEach(element => { flatteningStatFile += element; });
+            // Removes extra comma at the end off each section
+            flatteningStatFile = flatteningStatFile.substring(0, flatteningStatFile.length - 1);
+            flatteningStatFile += "},";
+        }
+        if (crafted.length) {
+            flatteningStatFile += "\"minecraft:crafted\": {";
+            crafted.forEach(element => { flatteningStatFile += element; });
+            // Removes extra comma at the end off each section
+            flatteningStatFile = flatteningStatFile.substring(0, flatteningStatFile.length - 1);
+            flatteningStatFile += "},";
+        }
+        if (dropped.length) {
+            flatteningStatFile += "\"minecraft:dropped\": {";
+            dropped.forEach(element => { flatteningStatFile += element; });
+            // Removes extra comma at the end off each section
+            flatteningStatFile = flatteningStatFile.substring(0, flatteningStatFile.length - 1);
+            flatteningStatFile += "},";
+        }
+        if (pickedup.length) {
+            flatteningStatFile += "\"minecraft:pickup_up\": {";
+            pickedup.forEach(element => { flatteningStatFile += element; });
+            // Removes extra comma at the end off each section
+            flatteningStatFile = flatteningStatFile.substring(0, flatteningStatFile.length - 1);
+            flatteningStatFile += "},";
+        }
+        if (killed.length) {
+            flatteningStatFile += "\"minecraft:killed\": {";
+            killed.forEach(element => { flatteningStatFile += element; });
+            // Removes extra comma at the end off each section
+            flatteningStatFile = flatteningStatFile.substring(0, flatteningStatFile.length - 1);
+            flatteningStatFile += "},";
+        }
+        if (killedby.length) {
+            flatteningStatFile += "\"minecraft:killed_by\": {";
+            killedby.forEach(element => { flatteningStatFile += element; });
+            // Removes extra comma at the end off each section
+            flatteningStatFile = flatteningStatFile.substring(0, flatteningStatFile.length - 1);
+            flatteningStatFile += "},";
+        }
+        // Removes extra comma at the end off each section
+        statFile = flatteningStatFile.substring(0, flatteningStatFile.length - 1);
+        statFile += "}, \"DataVersion\": 1451}"; // Manual dataversion due to existing for only 1 update
     }
     Save(statFile);
 }
