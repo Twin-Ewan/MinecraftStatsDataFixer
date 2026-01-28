@@ -6,7 +6,9 @@ var VerRanges;
     VerRanges[VerRanges["CamelCase"] = 3] = "CamelCase";
     VerRanges[VerRanges["EntityRevert"] = 4] = "EntityRevert";
     VerRanges[VerRanges["Flattening"] = 5] = "Flattening";
-    VerRanges[VerRanges["HardenedClay"] = 7] = "HardenedClay";
+    VerRanges[VerRanges["HardenedClay"] = 6] = "HardenedClay";
+    VerRanges[VerRanges["EntityRename"] = 7] = "EntityRename";
+    VerRanges[VerRanges["ShortGrass"] = 8] = "ShortGrass";
 })(VerRanges || (VerRanges = {}));
 let TargetVer;
 let statFileName;
@@ -165,6 +167,14 @@ let GeneralStatLower = ["interact_with_beacon", "eat_cake_slice",
     "walk_one_cm", "animals_bred", "player_kills", "minecart_one_cm", "open_shulker_box",
     "enchant_item", "mob_kills", "sneak_time", "clean_armor", "play_one_minute",
     "time_since_death", "fly_one_cm",];
+let EntityOriginalFlattening = ["evocation_illager", "vindication_illager",
+    "illusion_illager", "evocation_fangs", "commandblock_minecart", "ender_crystal",
+    "eye_of_ender_signal", "fireworks_rocket", "snowman", "villager_golem", "xp_bottle", "xp_orb"
+];
+let EntityRenameFlattening = ["evoker", "vindicator", "illusioner", "evoker_fangs",
+    "command_block_minecart", "end_crystal", "eye_of_ender", "firework_rocket", "snow_golem",
+    "iron_golem", "experience_bottle", "experience_orb"
+];
 async function filePreview() {
     var files = document.getElementById("fileInput").files;
     if (!files) {
@@ -383,6 +393,16 @@ function DataFixerUpper(statFile) {
     if (VerIndex > 5) // hardened clay into terracota
      {
         statFile = statFile.replace("minecraft:hardened_clay", "minecraft:terracotta");
+    }
+    if (VerIndex > 6) // Misc entity renames in 1.13pre5
+     {
+        for (let i = 0; i < EntityOriginalFlattening.length; i++) {
+            statFile = statFile.replace(EntityOriginalFlattening[i], EntityRenameFlattening[i]);
+        }
+    }
+    if (VerIndex > 7) // grass into short_grass
+     {
+        statFile = statFile.replace("minecraft:grass", "minecraft:short_grass");
     }
     Save(statFile);
 }
