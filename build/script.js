@@ -6,8 +6,7 @@ var VerRanges;
     VerRanges[VerRanges["CamelCase"] = 3] = "CamelCase";
     VerRanges[VerRanges["EntityRevert"] = 4] = "EntityRevert";
 })(VerRanges || (VerRanges = {}));
-let TargetVer = 3;
-let OriginateVer = 1;
+let TargetVer;
 let statFileName;
 // Some 1.8 IDs due to the namespace IDs not happening till 14w05b
 // as well as IDs being insane in the 150 - 180 range
@@ -165,6 +164,7 @@ async function filePreview() {
     }
 }
 async function Load() {
+    TargetVer = document.getElementById("targetVer").selectedIndex;
     var files = document.getElementById("fileInput").files;
     if (!files) {
         console.log("Null!");
@@ -198,7 +198,8 @@ function Save(statFile) {
     document.body.removeChild(element);
 }
 function DataFixerUpper(statFile) {
-    let VerIndex = TargetVer.valueOf();
+    let VerIndex = TargetVer.valueOf() + 1;
+    console.log(VerIndex);
     if (VerIndex > 0) // 13w37a - 1.7.10/14w05b numeric
      {
         // Unlit torch into a lit torch
@@ -234,10 +235,16 @@ function DataFixerUpper(statFile) {
     }
     if (VerIndex > 3) // entity camelcase (reverted)
      {
+        console.log("1.11");
+        // Converts all the entities into the old format
         for (let i = 0; i < EntityLowerSnakecase.length; i++) {
-            statFile = statFile.replace("stat.killEntity." + EntityLowerSnakecase[i], "stat.killEntity.minecraft:" + EntityUpperCamelCase[i]);
-            statFile = statFile.replace("stat.entityKilledBy." + EntityLowerSnakecase[i], "stat.entityKilledBy.minecraft:" + EntityUpperCamelCase[i]);
+            statFile = statFile.replace("stat.killEntity.minecraft:" + EntityLowerSnakecase[i], "stat.killEntity." + EntityUpperCamelCase[i]);
+            statFile = statFile.replace("stat.entityKilledBy.minecraft:" + EntityLowerSnakecase[i], "stat.entityKilledBy." + EntityUpperCamelCase[i]);
         }
+        // horses (and skeletons and zombies) are split into seperate entities but the horse specifically has a new name
+        // so this fixed that in particular
+        statFile = statFile.replace("stat.killEntity.minecraft:EntityHorse", "stat.killEntity.Horse");
+        statFile = statFile.replace("stat.entityKilledBy.minecraft:EntityHorse", "stat.entityKilledBy.Horse");
     }
     Save(statFile);
 }

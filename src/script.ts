@@ -6,8 +6,7 @@ enum VerRanges
     EntityRevert = 4, /* 16w36a - 17w46a */
 }
 
-let TargetVer: VerRanges = 3;
-let OriginateVer: VerRanges = 1;
+let TargetVer: VerRanges;
 
 let statFileName: string;
 
@@ -182,6 +181,9 @@ async function filePreview() {
 
 async function Load()
 {
+
+    TargetVer = (document.getElementById("targetVer") as HTMLSelectElement).selectedIndex;
+
     var files = (document.getElementById("fileInput") as HTMLInputElement).files;
     if(!files)
     {
@@ -227,7 +229,7 @@ function Save(statFile: string) {
 
 function DataFixerUpper(statFile: string)
 {
-    let VerIndex: number = TargetVer.valueOf();
+    let VerIndex: number = TargetVer.valueOf() + 1;
 
     if(VerIndex > 0) // 13w37a - 1.7.10/14w05b numeric
     {
@@ -270,11 +272,17 @@ function DataFixerUpper(statFile: string)
 
     if(VerIndex > 3) // entity camelcase (reverted)
     {
+        // Converts all the entities into the old format
         for(let i = 0; i < EntityLowerSnakecase.length; i++)
         { 
-            statFile = statFile.replace("stat.killEntity." + EntityLowerSnakecase[i], "stat.killEntity.minecraft:" + EntityUpperCamelCase[i]);
-            statFile = statFile.replace("stat.entityKilledBy." + EntityLowerSnakecase[i], "stat.entityKilledBy.minecraft:" + EntityUpperCamelCase[i]);
+            statFile = statFile.replace("stat.killEntity.minecraft:" + EntityLowerSnakecase[i], "stat.killEntity." + EntityUpperCamelCase[i]);
+            statFile = statFile.replace("stat.entityKilledBy.minecraft:" + EntityLowerSnakecase[i], "stat.entityKilledBy." + EntityUpperCamelCase[i]);
         }
+        
+        // horses (and skeletons and zombies) are split into seperate entities but the horse specifically has a new name
+        // so this fixed that in particular
+        statFile = statFile.replace("stat.killEntity.minecraft:EntityHorse", "stat.killEntity.Horse");
+        statFile = statFile.replace("stat.entityKilledBy.minecraft:EntityHorse", "stat.entityKilledBy.Horse");
     }
 
     Save(statFile)
