@@ -96,37 +96,37 @@
         </p>
 
 	
-	<h4>Flattening</h4>
-	<p>
+        <h4>Flattening</h4>
+        <p>
           As with most things, 17w47a (1.13) - also known as the start of "<a href="https://minecraft.wiki/w/Java_Edition_Flattening">The Flattening</a>" -
           reworked at lot of things, including how statistics are stored: no more <code>stat.useItem.minecraft.&#60ID&#62</code> now each entry is stored in its 
           own section to do with that specific stat - I.e "dropped", "used", "crafted" etc. - <a href="https://mojira.dev/MC-124025">and with the offical 
           datafixer for this not being created until 1.13-pre3</a> means playing in versions between 17w47a and 1.13-pre3 will delete all statistics.
-	</p>
-	<p>
+        </p>
+        <p>
           As well as reworking the statistic format The Flattening also reworked how items worked, importantly for us, spawn eggs. Before, all spawn eggs shared
           the same ID and either had a DV pre-15w33a (1.9) pertaining to that <a href="https://minecraft.wiki/w/Java_Edition_pre-flattening_data_values#Entity_IDs">
           entity's internal ID</a> - I.e Creeper = 50, FallingSand = 21, MinecartCommandBlock = 40 etc. - or afterwards, having a <code>EntityTag ID</code>
           of that specific mob - "creeper", "falling_block", "commandblock_minecart". But after The Flattening they seperated them all into their own items,
           leaving <a href="https://mojira.dev/MC-124025">the generic "spawn_egg" stats without a corresponding item</a>.
-	</p>
+        </p>
         <p>
-         They also just accidently forgot to update to update terracotta's name. whoopies.
+          They also just accidently forgot to update to update terracotta's name. whoopies.
         </p>
 
         <h4>Flattening Cont.</h4>
         <p>
-         They fixed the ID of terracotta in 17w47b (1.13).
-	</p>
+          They fixed the ID of terracotta in 17w47b (1.13).
+        </p>
 
         <h4>Flattening Cont. Cont.</h4>
         <p>
-         In 1.13-pre3 the flattening was slowing down but one of the last few things they did was update a few entities ID's that were strangely named. this included:
-	</p>
+          In 1.13-pre3 the flattening was slowing down but one of the last few things they did was update a few entities ID's that were strangely named. this included:
+        </p>
 
         <table style="width:100%;text-align:center";>
           <tr>
-            <th>1.12 ID</th> <th>1.13 ID</th>
+            <th>1.12 ID</th> <th>1.13 ID</th>
           </tr>
           <tr>
             <td>evocation_illager</td> <td>evoker</td>
@@ -171,7 +171,7 @@
         <p>
          In 1.20.3-pre1 the item ID of grass (not block of, nor double tall) was changed to <code>short_grass</code>, Mojang forgot a datafixer initally and as such <a href="https://mojira.dev/MC-266890">
          all related statistics are deleted</a> once upgrading to this version.
-	</p>
+	      </p>
       </div>
 
   </body>
