@@ -54,11 +54,6 @@ input[type="file"] {
 }
 
 div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
     background-color: lightgrey;
     border-color: white grey grey white;
     border-style: solid;
@@ -72,10 +67,18 @@ div {
     margin: 2px auto;
 }
 
+#datafixer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 #explanation, #usage {
     display: block;
-    float: right;
     margin: 2px 10px;
+    overflow-y: scroll;
+    max-height: 90%;
 
     width: 400px;
 }
@@ -94,6 +97,8 @@ div {
         display: block;
         width: 80%;
         margin: 25px auto;
+        overflow-y: visible;
+	max-height: none;
     }
     
     #datafixer {
