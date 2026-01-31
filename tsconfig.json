@@ -10,7 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
 
-    "lib": ["DOM", "ES2017"]
+    "lib": ["DOM", "ES2017", "ES2021.String"]
   },
   "include": ["src/*/"]
 }
