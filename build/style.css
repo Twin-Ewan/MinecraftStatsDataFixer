@@ -3,13 +3,10 @@ body {
 	display:flex;
 	height:100%;
 	align-items:center;
-    
+
+    image-rendering: pixelated;
     background-image: url("Background.png");
     background-color: #422F20;
-}
-
-h4 {
-    margin: 0px;
 }
 
 h2 {
@@ -22,7 +19,7 @@ p {
     margin-top: 5px;
 }
 
-button, .custom-file-upload {
+#datafixer button, .custom-file-upload {
     background-color: grey;
     border-color: darkgrey darkslategrey darkslategrey darkgrey;
     border-style: solid;
@@ -43,8 +40,8 @@ button, .custom-file-upload {
     margin: 10px auto;
 }
 
-button:hover, .custom-file-upload:hover {
-    background-color: darkgray ;
+#datafixer button:hover, .custom-file-upload:hover {
+    background-color: darkgray;
     border-color: lightgrey grey grey lightgrey;
     color: white;
 }
@@ -58,12 +55,12 @@ div {
     border-color: white grey grey white;
     border-style: solid;
     border-width: 3px;
-    border-radius: 2px;
+    border-radius: 6px;
 
     /* Fake black border to surround actual border*/
     box-shadow: 0px 0px 0px 2px black;
 
-    padding: 10px 20px;
+    padding: 0px 5px;
     margin: 2px auto;
 }
 
@@ -72,18 +69,20 @@ div {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    padding-top: 10px;
 }
 
-#explanation, #usage {
+#explaination, #usage {
     display: block;
     margin: 2px 10px;
     overflow-y: auto;
     max-height: 90%;
 
-    width: 400px;
+    width: 475px;
 }
 
-@media only screen and (max-width: 1300px) {
+@media only screen and (max-width: 1325px) {
 
     body {
         flex-direction: column;
@@ -91,17 +90,38 @@ div {
 
     #datafixer { order: 0; }
     #usage { order: 1; }
-    #explanation { order: 2; }
+    #explaination { order: 2; }
 
-    #usage, #explanation {
+    #usage, #explaination {
         display: block;
-        width: 80%;
+        width: 90%;
         margin: 25px auto;
         overflow-y: visible;
-	max-height: none;
+	    max-height: none;
     }
     
     #datafixer {
         margin: 200px auto;
     }
 }   
+
+.fix {
+    padding: 2px 5px;
+    margin: 8px 0px;
+}
+
+.fix .dropdown {
+    display: block;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    font-weight: normal;
+    font-size: 16px;
+    text-align: left;
+    
+    margin: 7px 0px;
+    padding: 0px;
+
+    width: 100%;
+}

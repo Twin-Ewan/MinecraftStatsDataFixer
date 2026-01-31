@@ -12,7 +12,7 @@
     
   </head>
 
-  <body>
+  <body onload="start()">
       <div id="usage">
         <h2>Usage</h2>
         <h4>File Name</h4>
@@ -46,10 +46,11 @@
             <option value="6">17w47b - 18w07a (1.13)</option>
             <option value="7">18w07b - 18w14a (1.13)</option>
             <option value="8">18w14b - 18w16a (1.13)</option>
-            <option value="9">18w19a - 18w20a (1.13)</option>
-            <option value="10">18w20b - 1.13-pre4 (1.13)</option>
-            <option value="11">1.13-pre5 - 23w46a (1.20.3)</option>
-            <option value="12">1.20.3-pre1 - Present</option>
+            <option value="9">18w19a/b (1.13)</option>
+            <option value="10">18w20a (1.13)</option>
+            <option value="11">18w20b - 1.13-pre4 (1.13)</option>
+            <option value="12">1.13-pre5 - 23w46a (1.20.3)</option>
+            <option value="13">1.20.3-pre1 - Present</option>
           </select>   
 
           
@@ -63,119 +64,189 @@
 
       </div>
 
-      <div id="explanation">
+      <div id="explaination">
 
         <h2>Explanations</h2>
-        <h4>Unlit Redstone Torch</h4>
-        <p>In 13w36a/b (1.7.2) the redstone torch statistics uses the unlit version 
-          <a href="https://mcdf.wiki.gg/wiki/Java_Edition:Unlit_Redstone_Torch_(Item)"> which then got deleted in 13w37a</a>
-          causing all their corresponding statistics to be deleted along side.
-        </p>
+        <div class="fix">
+          <button class="dropdown">Unlit Redstone Torch | 13w36a/b (1.7.2)</button>
+          <p>In 13w36a/b the redstone torch statistics uses the unlit version 
+            <a href="https://mcdf.wiki.gg/wiki/Java_Edition:Unlit_Redstone_Torch_(Item)"> which then got deleted in 13w37a</a>
+            causing all their corresponding statistics to be deleted along side.
+          </p>
+        </div>
 
-        <h4>Namespace IDs</h4>
-        <p>In 14w03a (1.8) minecraft started its switch from numerical to namespace - I.e <code>#0003</code> into 
-          <code>minecraft:dirt</code> - for blocks and items, this hit the statistics in 14w06a but Mojang never added a 
-          datafixer ever for upgrading numeric IDs deleting all blocks and items once upgrading after 14w05b.
-        </p>
+        <div class="fix">
+          <button class="dropdown">Namespace IDs | 14w06a (1.8)</button>
+          <p>In 14w03a minecraft started its switch from numerical to namespace - I.e <code>#0003</code> into 
+            <code>minecraft:dirt</code> - for blocks and items, this hit the statistics in 14w06a but Mojang never added a 
+            datafixer ever for upgrading numeric IDs deleting all blocks and items once upgrading after 14w05b.
+          </p>
+        </div>
 
-        <h4>Entity Rename</h4>
-        <p>In 16w32a (1.11) entity names were changed from <a href="https://en.wikipedia.org/wiki/Camel_case">UpperCamelCase</a> 
-          to <a href="https://en.wikipedia.org/wiki/Snake_case">lower_snake_case</a> and the statistics followed suit, but
-          they failed to add a datafixer for these meaning once upgrading, all entity killed and killed by statistics 
-          are deleted.
-        </p>
+        <div class="fix">
+          <button class="dropdown">Entity Rename | 16w32a to 16w35a (1.11)</button>
+          <p>In 16w32a entity names were changed from <a href="https://en.wikipedia.org/wiki/Camel_case">UpperCamelCase</a> 
+            to <a href="https://en.wikipedia.org/wiki/Snake_case">lower_snake_case</a> and the statistics followed suit, but
+            they failed to add a datafixer for these meaning once upgrading, all entity killed and killed by statistics 
+            are deleted.
+          </p>
+        </div>
 
-        <h4>Entity Rename Reverted</h3>
-        <p>
-          The entity renames for the statistics then <a href="https://mojira.dev/MC-106314">later gets reverted in 16w36a (1.11)</a> 
-          back to the old format but with the mobs that became seperate use their new names: this effects horses, donkeys, mules, 
-          skeleton horses and zombie horses all being seperated from <code>EntityHorse</code>, skeletons, wither skeletons and strays from 
-          <code>Skeleton</code> and zombies, zombie villagers and husks from <code>Zombie</code> all into their own seperate entities 
-          instead of being a tag on the base entity. 
-        </p>
-        <p>
-          Due to skeleton and zombies still having the same name from before the changes, they upgrade to 16w36a and beyond perfectly fine
-          but the horses do not, meaning no matter what, when upgrading to versions after 1.10.2 it will always delete the kills and killed by horse
-          statistics.
-        </p>
-
+        <div class="fix">
+          <button class="dropdown">Entity Rename Reverted | 16w36a (1.11) to 17w46a (1.13)</button>
+          <p>
+            The entity renames for the statistics then <a href="https://mojira.dev/MC-106314">later gets reverted in 16w36a (1.11)</a> 
+            back to the old format but with the mobs that became seperate use their new names: this effects horses, donkeys, mules, 
+            skeleton horses and zombie horses all being seperated from <code>EntityHorse</code>, skeletons, wither skeletons and strays from 
+            <code>Skeleton</code> and zombies, zombie villagers and husks from <code>Zombie</code> all into their own seperate entities 
+            instead of being a tag on the base entity. 
+          </p>
+          <p>
+            Due to skeleton and zombies still having the same name from before the changes, they upgrade to 16w36a and beyond perfectly fine
+            but the horses do not, meaning no matter what, when upgrading to versions after 1.10.2 it will always delete the kills and killed by horse
+            statistics.
+          </p>
+        </div>
 	
-        <h4>Flattening</h4>
-        <p>
-          As with most things, 17w47a (1.13) - also known as the start of "<a href="https://minecraft.wiki/w/Java_Edition_Flattening">The Flattening</a>" -
-          reworked at lot of things, including how statistics are stored: no more <code>stat.useItem.minecraft.&#60ID&#62</code> now each entry is stored in its 
-          own section to do with that specific stat - I.e "dropped", "used", "crafted" etc. - <a href="https://mojira.dev/MC-124025">and with the offical 
-          datafixer for this not being created until 1.13-pre3</a> means playing in versions between 17w47a and 1.13-pre3 will delete all statistics.
-        </p>
-        <p>
-          As well as reworking the statistic format The Flattening also reworked how items worked, importantly for us, spawn eggs. Before, all spawn eggs shared
-          the same ID and either had a DV pre-15w33a (1.9) pertaining to that <a href="https://minecraft.wiki/w/Java_Edition_pre-flattening_data_values#Entity_IDs">
-          entity's internal ID</a> - I.e Creeper = 50, FallingSand = 21, MinecartCommandBlock = 40 etc. - or afterwards, having a <code>EntityTag ID</code>
-          of that specific mob - "creeper", "falling_block", "commandblock_minecart". But after The Flattening they seperated them all into their own items,
-          leaving <a href="https://mojira.dev/MC-124025">the generic "spawn_egg" stats without a corresponding item</a>.
-        </p>
-        <p>
-          They also just accidently forgot to update to update terracotta's name. whoopies.
-        </p>
+        <div class="fix">
+          <button class="dropdown">Flattening | 17w47a (1.13)</button>
+          <p>
+            As with most things, 17w47a - also known as the start of "<a href="https://minecraft.wiki/w/Java_Edition_Flattening">The Flattening</a>" -
+            reworked at lot of things, including how statistics are stored: no more <code>stat.useItem.minecraft.[ID]</code> now each entry is stored in its 
+            own section to do with that specific stat - I.e "dropped", "used", "crafted" etc. - <a href="https://mojira.dev/MC-124025">and with the offical 
+            datafixer for this not being created until 1.13-pre3</a> means playing in versions between 17w47a and 1.13-pre3 will delete all statistics.
+          </p>
+          <p>
+            As well as reworking the statistic format The Flattening also reworked how items worked, importantly for us, spawn eggs. Before, all spawn eggs shared
+            the same ID and either had a DV pre-15w33a (1.9) pertaining to that <a href="https://minecraft.wiki/w/Java_Edition_pre-flattening_data_values#Entity_IDs">
+            entity's internal ID</a> - I.e Creeper = 50, FallingSand = 21, MinecartCommandBlock = 40 etc. - or afterwards, having a <code>EntityTag ID</code>
+            of that specific mob - "creeper", "falling_block", "commandblock_minecart". But after The Flattening they seperated them all into their own items,
+            leaving <a href="https://mojira.dev/MC-124025">the generic "spawn_egg" stats without a corresponding item</a>.
+          </p>
+          <p>
+            They also just accidently forgot to update to update terracotta's name. whoopies.
+          </p>
+        </div>
 
-        <h4>Flattening: Terracotta.</h4>
-        <p>
-          They fixed the ID of terracotta in 17w47b (1.13).
-        </p>
+        <div class="fix">
+          <button class="dropdown">Flattening: Terracotta. | 17w47b (1.13)</button>
+          <p>
+            They fixed the ID of terracotta in 17w47b from <code>hardened_clay</code> into <code>terracotta</code>.
+          </p>
+        </div>
 
-        <h4>Flattening: Entity Rename</h4>
-        <p>
-          In 1.13-pre3 the flattening was slowing down but one of the last few things they did was update a few entities ID's that were strangely named. this included:
-        </p>
+        <div class="fix">
+          <button class="dropdown">Flattening: Scute | 17w48a to 18w07a (1.13)</button>
+          <p>
+            When turtle scute was first added it was called <code>turtle_shell_piece</code>, this was then changed the next snapshot into its modern name of
+            <code>turtle_scute</code> though without a datafixer.
+          </p>
+        </div>
 
-        <table style="width:100%;text-align:center";>
-          <tr>
-            <th>1.12 ID</th> <th>1.13 ID</th>
-          </tr>
-          <tr>
-            <td>evocation_illager</td> <td>evoker</td>
-          </tr>
-          <tr>
-            <td>vindication_illager</td> <td>vindicator</td>
-          </tr>
-          <tr>
-            <td>illusion_illager</td> <td>illusioner</td>
-          </tr>
-          <tr>
-            <td>evocation_fangs</td> <td>evoker_fangs</td>
-          </tr>
-          <tr>
-            <td>commandblock_minecart</td> <td>command_block_minecart</td>
-          </tr>
-          <tr>
-            <td>eye_of_ender_signal</td> <td>eye_of_ender</td>
-          </tr>
-          <tr>
-            <td>fireworks_rocket</td> <td>firework_rocket</td>
-          </tr>
-          <tr>
+        <div class="fix">
+          <button class="dropdown">Flattening: Coral | 18w07b to 18w14a (1.13)</button>
+          <p>
+            When corals were first added in 18w10a - though not being obtainable in survival till 10d - they had a diffrent naming scheme: they named by colour,
+            coral blocks were called <code>[colour]_coral</code>, coral <code>[colour]_plant</code> and dead coral <code>[colour]_dead_coral</code>, this was then
+            changed in the next snapshot to the modern formatting, but without a datafixer for the statistic till 1.13-pre3 and dead coral till 18w32a (1.13.1)
+            which erroneously converts it into waterlogged dead coral, <a href="https://mcdf.wiki.gg/wiki/Java_Edition:Water_in_the_Nether">which conveniently
+            can be used for shenanigans</a>.
+          </p>
+        </div>
+
+        <div class="fix">
+          <button class="dropdown">Flattening: Seagrass & Pufferfish | 18w14b to 18w16a (1.13)</button>
+          <p>
+            When seagrass was first added in 18w07a its ID was originally <code>sea_grass</code> to <code>seagrass</code> and once this was changed in the next snapshot,
+            not all did they <a href="https://mojira.dev/MC-129625">forget to add a datafixer for the block</a> till 1.13-pre1 they forgot about the statistics till 1.13-pre3.
+          </p>
+          <p>
+            When pufferfish mob was first added in 18w08b it was called <code>puffer_fish</code> the underscore was then removed in the next snapshot, but without a datafixer
+            for the statistic, deleting them once upgrading out of these versions.
+          </p>
+        </div>
+
+        <div class="fix">
+          <button class="dropdown">Flattening: Fish, Kelp & Prismarine | 18w19a/b (1.13)</button>
+          <p>
+            Following suit from the previous changes with the pufferfish, salmon and cod were changed in 18w20a to remove their suffix of <code>_mob</code>, though with a datafixer
+            for the statistics being added in 1.13-pre6
+          </p>
+          <p>
+            Kelp, like most plants after the removal of numerical IDs, have two related blocks: The stem and the tippy top part. The stem was called <code>kelp</code> and the top and item
+            was called <code>kelp_top</code>, this was then changed to <code>kelp_plant</code> and <code>kelp</code> respectively but without a datafixer till 1.13-pre3 for the statistics.
+          </p>
+          <p>
+            Prismarine brick stairs and slabs were originally plural-ised in their ID, having <code>prismarine_bricks_[type]</code> as to follow the base block's name. This was then changed
+            to removal the S only for the slabs and stairs - but still keeping the base block plural? - without a datafixer till 1.13-pre3.
+          </p>
+        </div>
+
+        <div class="fix">
+          <button class="dropdown">Flattening: Melons | 18w20b - 1.13-pre4 (1.13)</button>
+          <p>
+            In 18w20b melons were Mojang's target for the day: changing the melon slice from <code>melon</code> into <code>melon_slice</code>, melon from <code>melon_block</code> to
+            <code>melon</code> and glistering melon from <code>speckled_melon</code> to <code>glistering_melon_slice</code> but forgetting a datafixer for the statistics till 1.13-pre3.
+          </p>
+        </div>
+
+        <div class="fix">
+          <button class="dropdown">Flattening: Entity Rename | 1.13-pre5 to 23w46a (1.20.3)</button>
+          <p>
+            In 1.13-pre5 the flattening was slowing down but one of the last few things they did was update a few entities ID's that were strangely named. this included:
+          </p>
+          
+          <table style="width:100%;text-align:center";>
+            <tr>
+              <th>1.12 ID</th> <th>1.13 ID</th>
+            </tr>
+            <tr>
+              <td>evocation_illager</td> <td>evoker</td>
+            </tr>
+            <tr>
+              <td>vindication_illager</td> <td>vindicator</td>
+            </tr>
+            <tr>
+              <td>illusion_illager</td> <td>illusioner</td>
+            </tr>
+            <tr>
+              <td>evocation_fangs</td> <td>evoker_fangs</td>
+            </tr>
+            <tr>
+              <td>commandblock_minecart</td> <td>command_block_minecart</td>
+            </tr>
+            <tr>
+              <td>eye_of_ender_signal</td> <td>eye_of_ender</td>
+            </tr>
+            <tr>
+              <td>fireworks_rocket</td> <td>firework_rocket</td>
+            </tr>
+            <tr>
             <td>snowman</td> <td>snow_golem</td>
           </tr>
           <tr>
             <td>villager_golem</td> <td>iron_golem</td>
-          <tr>
-            <td>xp_bottle</td> <td>experience_bottle</td>
-          </tr>
-          <tr>
-            <td>xp_orb</td> <td>experience_orb</td>
-          </tr>
-        </table>
-
-        <p>
-         Mojang did these changes without adding a data fixer initally, meaning once upgrading into this version <a href="https://mojira.dev/MC-132320">all entities statistics
-         are deleted</a>.
-        </p>
-
-        <h4>Grass into Short_Grass</h4>
-        <p>
-         In 1.20.3-pre1 the item ID of grass (not block of, nor double tall) was changed to <code>short_grass</code>, Mojang forgot a datafixer initally and as such <a href="https://mojira.dev/MC-266890">
-         all related statistics are deleted</a> once upgrading to this version.
-	      </p>
+            <tr>
+              <td>xp_bottle</td> <td>experience_bottle</td>
+            </tr>
+            <tr>
+              <td>xp_orb</td> <td>experience_orb</td>
+            </tr>
+          </table>
+          
+          <p>
+            Mojang did these changes without adding a data fixer initally, meaning once upgrading into this version <a href="https://mojira.dev/MC-132320">all entities statistics
+              are deleted</a>.
+            </p>
+        </div>
+            
+        <div class="fix">
+          <button class="dropdown">Grass into Short_Grass | 1.20.3-pre1 to Present</button>
+          <p>
+           In 1.20.3-pre1 the item ID of grass (not block of, nor double tall) was changed to <code>short_grass</code>, Mojang forgot a datafixer initally and as such <a href="https://mojira.dev/MC-266890">
+           all related statistics are deleted</a> once upgrading to this version.
+          </p>
+        </div>
       </div>
 
   </body>

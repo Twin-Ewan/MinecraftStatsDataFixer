@@ -1,4 +1,31 @@
 "use strict";
+function start() {
+    const dropdown = document.querySelectorAll(".dropdown");
+    dropdown.forEach((fix) => {
+        fix.addEventListener("click", (e) => { ToggleDropdown(fix); });
+        ToggleDropdown(fix);
+    });
+}
+function ToggleDropdown(Dropdown) {
+    // Header text toggle
+    let HeaderText = Dropdown.parentElement.children[0];
+    let FixContainer = Dropdown.parentElement;
+    if (!Dropdown.parentElement.children[1].checkVisibility()) {
+        HeaderText.innerHTML = HeaderText.innerHTML.substring(5, HeaderText.innerHTML.length);
+        HeaderText.style.textDecoration = "underline";
+        HeaderText.style.marginTop = "15px";
+    }
+    else {
+        HeaderText.innerHTML = "> " + HeaderText.innerHTML;
+        HeaderText.style.textDecoration = "none";
+        HeaderText.style.marginTop = "7px";
+    }
+    // Toggles visibility of all elements inside the container
+    for (let i = 1; i < Dropdown.parentElement.children.length; i++) {
+        let element = Dropdown.parentElement.children[i];
+        element.style.display = element.checkVisibility() ? "none" : "";
+    }
+}
 let TargetVer;
 let statFileName;
 async function filePreview() {
