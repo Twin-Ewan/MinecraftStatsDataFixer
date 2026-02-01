@@ -9,6 +9,10 @@ body {
     background-color: #422F20;
 }
 
+h4 {
+    margin: 0px;
+}
+
 h2 {
     margin: 10px 0px;
     text-align: center;
