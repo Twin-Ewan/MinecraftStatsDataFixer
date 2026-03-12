@@ -228,8 +228,7 @@ async function DataFixerUpper()
             statFile = statFile.replaceAll("stat.craftItem." + i, "stat.craftItem.minecraft." + BlockNamespace[i]);
         }
     }
-
-    
+  
     let EntityLowerSnakecase: string[] = ["arrow", "bat", "boat", "blaze",
         "chicken", "cow", "creeper","enderman", "endermite", "fireball",
         "ghast", "item", "painting", "pig", "rabbit", "sheep", "shulker",
@@ -286,8 +285,14 @@ async function DataFixerUpper()
         statFile = statFile.replaceAll("stat.entityKilledBy.EntityHorse", "stat.entityKilledBy.Horse");
     }
 
+    if(VerIndex > 4) // 1.11.1-pre - 17w46a
+    {
+        // new ID
+        statFile = statFile.replaceAll("totem", "totem_of_undying")
+    }
+
     // DataVersion was added in 17w47a meaning any file that includes it is already in the new format.
-    if(VerIndex > 4 && !statFile.includes("DataVersion")) // Flattening rework (17w47a)
+    if(VerIndex > 5 && !statFile.includes("DataVersion")) // Flattening rework (17w47a)
     {
         let GeneralStatUpper: string[] = ["beaconInteraction", "cakeSlicesEaten",
         "horseOneCm", "pigOneCm", "leaveGame", "bannerCleaned", "swimOneCm",
@@ -463,17 +468,17 @@ async function DataFixerUpper()
 
     }
 
-    if(VerIndex > 5) // hardened clay into terracota (17w47b)
+    if(VerIndex > 6) // hardened clay into terracota (17w47b)
     {
         statFile = statFile.replaceAll("minecraft:hardened_clay", "minecraft:terracotta");
     }
 
-    if(VerIndex > 6) // turtle shell piece into scute (18w07b)
+    if(VerIndex > 7) // turtle shell piece into scute (18w07b)
     {
         statFile = statFile.replaceAll("minecraft:turtle_shell_piece", "minecraft:turtle_scute");
     }
 
-    if(VerIndex > 7) // corals (18w14b)
+    if(VerIndex > 8) // corals (18w14b)
     {
         let CoralColour: string[] = ["blue", "pink", "purple", "red", "yellow"];
         let CoralVariant: string[] = ["tube", "brain", "bubble", "fire", "horn"];
@@ -494,13 +499,13 @@ async function DataFixerUpper()
         }
     }
 
-    if(VerIndex > 8) // puffer_fish into pufferfish and sea_grass into seagrass (18w19a)
+    if(VerIndex > 9) // puffer_fish into pufferfish and sea_grass into seagrass (18w19a)
     {
         statFile = statFile.replaceAll("minecraft:puffer_fish", "minecraft:pufferfish");
         statFile = statFile.replaceAll("minecraft:sea_grass", "minecraft:seagrass");
     }
 
-    if(VerIndex > 9) // kelp_top into kelp and primarine brick slabs and stairs (18w20a)
+    if(VerIndex > 10) // kelp_top into kelp and primarine brick slabs and stairs (18w20a)
     {
         statFile = statFile.replaceAll("minecraft:kelp", "minecraft:kelp_plant");
         statFile = statFile.replaceAll("minecraft:kelp_plant_top", "minecraft:kelp"); // actually called kelp_top
@@ -512,16 +517,19 @@ async function DataFixerUpper()
         statFile = statFile.replaceAll("minecraft:salmon_mob", "minecraft:salmon");
     }
 
-    if(VerIndex > 10) // Melons (18w20b)
+    if(VerIndex > 11) // Melons (18w20b)
     {
         statFile = statFile.replaceAll("minecraft:melon", "minecraft:melon_slice");
         statFile = statFile.replaceAll("minecraft:melon_slice_block", "minecraft:melon"); // actually melon_block
         statFile = statFile.replaceAll("minecraft:speckled_melon", "minecraft:glistering_melon_slice");
     }
 
-    if(VerIndex > 11) // Misc entity renames in 1.13pre5
+    if(VerIndex > 12) // Misc entity renames and clownfish buckets 1.13pre5
     {
-        let EntityOriginalFlattening: string[] = [ "evocation_illager", "vindication_illager", 
+
+    statFile = statFile.replaceAll("clownfish", "tropical_fish");
+
+    let EntityOriginalFlattening: string[] = [ "evocation_illager", "vindication_illager", 
         "illusion_illager", "evocation_fangs", "commandblock_minecart", "ender_crystal",
         "eye_of_ender_signal", "fireworks_rocket", "snowman", "villager_golem", "xp_bottle", "xp_orb"
     ]
@@ -535,9 +543,10 @@ async function DataFixerUpper()
         {
             statFile = statFile.replaceAll(EntityOriginalFlattening[i], EntityRenameFlattening[i]);
         }
+
     }
 
-    if(VerIndex > 12) // grass into short_grass
+    if(VerIndex > 13) // grass into short_grass
     {
         statFile = statFile.replaceAll("minecraft:grass", "minecraft:short_grass");
     }
