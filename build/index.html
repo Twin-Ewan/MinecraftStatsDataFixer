@@ -41,17 +41,18 @@
             <option value="1">13w37a (1.7.2) - 1.7.10 / 14w05b (1.8)</option>
             <option value="2">14w06a (1.8) - 1.10.2</option>
             <option value="3">16w32a - 16w35a (1.11)</option> 
-            <option value="4">16w36a (1.11) - 1.11</option>
-            <option value="5">1.11.1-pre - 17w46a (1.13)</option>
-            <option value="6">17w47a (1.13)</option>
-            <option value="7">17w47b - 18w07a (1.13)</option>
-            <option value="8">18w07b - 18w14a (1.13)</option>
-            <option value="9">18w14b - 18w16a (1.13)</option>
-            <option value="10">18w19a/b (1.13)</option>
-            <option value="11">18w20a (1.13)</option>
-            <option value="12">18w20b - 1.13-pre4 (1.13)</option>
-            <option value="13">1.13-pre5 - 23w46a (1.20.3)</option>
-            <option value="14">1.20.3-pre1 - Present</option>
+            <option value="4">16w36a - 16w39a (1.11)</option>
+            <option value="5">16w39b - 1.11</option>
+            <option value="6">1.11.1-pre - 17w46a (1.13)</option>
+            <option value="7">17w47a (1.13)</option>
+            <option value="8">17w47b - 18w07a (1.13)</option>
+            <option value="9">18w07b - 18w14a (1.13)</option>
+            <option value="10">18w14b - 18w16a (1.13)</option>
+            <option value="11">18w19a/b (1.13)</option>
+            <option value="12">18w20a (1.13)</option>
+            <option value="13">18w20b - 1.13-pre4 (1.13)</option>
+            <option value="14">1.13-pre5 - 23w46a (1.20.3)</option>
+            <option value="15">1.20.3-pre1 - Present</option>
           </select>   
 
           
@@ -94,7 +95,7 @@
         </div>
 
         <div class="fix">
-          <button class="dropdown">Entity Rename Reverted | 16w36a (1.11) to 1.11</button>
+          <button class="dropdown">Entity Rename Reverted | 16w36a (1.11) to 16w39b</button>
           <p>
             The entity renames for the statistics then <a href="https://mojira.dev/MC-106314">later gets reverted in 16w36a (1.11)</a> 
             back to the old format but with the mobs that became seperate use their new names: this effects horses, donkeys, mules, 
@@ -106,6 +107,18 @@
             Due to skeleton and zombies still having the same name from before the changes, they upgrade to 16w36a and beyond perfectly fine
             but the horses do not, meaning no matter what, when upgrading to versions after 1.10.2 it will always delete the kills and killed by horse
             statistics.
+          </p>
+        </div>
+
+        <div class="fix">
+          <button class="dropdown">Shulker Boxes | 16w39b (1.11) to 1.11</button>
+          <p>
+            Originally when shulker boxes were added all the colours shared the same ID <code>shulker_box</code> and had a color tag to control each 
+            type, this was then changed the following snapshot to have seperate ID, they added a datafixer for the item but not the statistic.
+          </p>
+          <p>
+            This is a little more complicated than the usual ID change as eventually in 18w10b (1.13) they added an undyed version with the same ID,
+            meaning that it'd be more accurate to leave the ID if upgrading to versions after that.
           </p>
         </div>
 
