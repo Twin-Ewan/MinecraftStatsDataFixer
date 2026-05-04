@@ -85,7 +85,7 @@ async function DataFixerUpper() {
             "sandstone", "noteblock", "bed", "golden_rail",
             "detector_rail", "sticky_piston", "web",
             "tallgrass", "deadbush", "piston", "piston_head",
-            "wool", "piston_extention", "yellow_flower",
+            "wool", "piston_extension", "yellow_flower",
             "red_flower", "brown_mushroom", "red_mushroom",
             "gold_block", "iron_block", "double_stone_slab",
             "stone_slab", "brick_block", "tnt", "bookshelf",
@@ -93,11 +93,10 @@ async function DataFixerUpper() {
             "mob_spawner", "oak_stairs", "chest", "redstone_wire",
             "diamond_ore", "diamond_block", "crafting_table",
             "wheat", "farmland", "furnace", "lit_furnace",
-            "standing_sign", "wall_sign", "wooden_door",
-            "ladder", "rail", "stone_stairs", "wall_sign",
-            "level", "stone_pressure_plate", "iron_door",
-            "wooden_pressure_plate", "redstone_ore",
-            "lit_redstone_ore", "unlit_redstone_ore",
+            "standing_sign", "wooden_door", "ladder", "rail",
+            "stone_stairs", "wall_sign", "lever",
+            "stone_pressure_plate", "iron_door",
+            "wooden_pressure_plate", "redstone_ore", "lit_redstone_ore",
             "unlit_redstone_torch", "redstone_torch",
             "stone_button", "snow_layer", "ice", "snow",
             "cactus", "clay", "reeds", "jukebox", "fence",
@@ -105,10 +104,10 @@ async function DataFixerUpper() {
             "portal", "lit_pumpkin", "cake", "unpowered_repeater",
             "powered_repeater", "stained_glass", "trapdoor",
             "monster_egg", "stonebrick", "brown_mushroom_block",
-            "red_mushroom_block", "iron_bars", "melon_block",
-            "pumpkin_stem", "melon_stem", "vine", "fence_gate",
-            "brick_stairs", "stone_brick_stairs", "mycelium",
-            "waterlily", "nether_brick", "nether_brick_stairs",
+            "red_mushroom_block", "iron_bars", "glass_pane",
+            "melon_block", "pumpkin_stem", "melon_stem", "vine",
+            "fence_gate", "brick_stairs", "stone_brick_stairs",
+            "mycelium", "waterlily", "nether_brick", "nether_brick_stairs",
             "nether_wart", "enchanting_table", "brewing_stand",
             "cauldron", "end_portal", "end_portal_frame",
             "end_stone", "dragon_egg", "redstone_lamp",
@@ -178,19 +177,25 @@ async function DataFixerUpper() {
             "far", "mall", "mellohi", "stal", "strad", "ward", "11", "wait"];
         // Numerical to Namespace
         // God awful way of doing this but idk how to read each entry
-        for (let i = 2256; i > 2267; i++) // Music Discs
+        for (let i = 2256 - 1; i < DiscNamespace.length + 2256 - 1; i++) // Music Discs
          {
             statFile = statFile.replaceAll("stat.useItem." + i, "stat.useItem.minecraft.record_" + DiscNamespace[i - 2256]);
+            statFile = statFile.replaceAll("stat.breakItem." + i, "stat.breakItem.minecraft.record_" + DiscNamespace[i - 2256]);
+            statFile = statFile.replaceAll("stat.mineBlock." + i, "stat.mineBlock.minecraft.record_" + DiscNamespace[i - 2256]);
             statFile = statFile.replaceAll("stat.craftItem." + i, "stat.craftItem.minecraft.record_" + DiscNamespace[i - 2256]);
         }
-        for (let i = ItemNamespace.length + 256; i > 256; i--) // Items 
+        for (let i = ItemNamespace.length + 256 - 1; i > 256 - 1; i--) // Items 
          {
             statFile = statFile.replaceAll("stat.useItem." + i, "stat.useItem.minecraft." + ItemNamespace[i - 256]);
+            statFile = statFile.replaceAll("stat.breakItem." + i, "stat.breakItem.minecraft." + ItemNamespace[i - 256]);
+            statFile = statFile.replaceAll("stat.mineBlock." + i, "stat.mineBlock.minecraft." + ItemNamespace[i - 256]);
             statFile = statFile.replaceAll("stat.craftItem." + i, "stat.craftItem.minecraft." + ItemNamespace[i - 256]);
         }
-        for (let i = BlockNamespace.length; i > 0; i--) // Blocks
+        for (let i = BlockNamespace.length - 1; i > 0 - 1; i--) // Blocks
          {
             statFile = statFile.replaceAll("stat.useItem." + i, "stat.useItem.minecraft." + BlockNamespace[i]);
+            statFile = statFile.replaceAll("stat.breakItem." + i, "stat.breakItem.minecraft." + BlockNamespace[i]);
+            statFile = statFile.replaceAll("stat.mineBlock." + i, "stat.mineBlock.minecraft." + BlockNamespace[i]);
             statFile = statFile.replaceAll("stat.craftItem." + i, "stat.craftItem.minecraft." + BlockNamespace[i]);
         }
     }
@@ -209,6 +214,7 @@ async function DataFixerUpper() {
         "polar_bear", "shulker_bullet", "small_fireball", "spectral_arrow",
         "wither_skull",
     ];
+    // zombie pigman has pig lowercased as it gets converted earlier.
     let EntityUpperCamelCase = ["Arrow", "Bat", "Boat", "Blaze",
         "Chicken", "Cow", "Creeper", "Enderman", "Endermite", "Fireball",
         "Ghast", "Item", "Painting", "Pig", "Rabbit", "Sheep", "Shulker",
@@ -218,7 +224,7 @@ async function DataFixerUpper() {
         "MinecartRideable", "MinecartChest", "MinecartCommandBlock",
         "MinecartFurnace", "MinecartHopper", "MinecartSpawner", "MinecartTNT",
         "MushroomCow", "Ozelot", "ThrownPotion", "PrimedTNT", "WitherBoss",
-        "PigZombie", "Guardian", "EntityHorse", "Skeleton", "Zombie",
+        "pigZombie", "Guardian", "EntityHorse", "Skeleton", "Zombie",
         "AreaEffectCloud", "ArmorStand", "CaveSpider", "DragonFireball",
         "EnderCrystal", "EnderDragon", "EyeOfEnderSignal", "XPOrb", "VillagerGolem",
         "ItemFrame", "LeashKnot", "LightningBolt", "PolarBear", "ShulkerBullet",
@@ -238,7 +244,7 @@ async function DataFixerUpper() {
             statFile = statFile.replaceAll("stat.killEntity.minecraft:" + EntityLowerSnakecase[i], "stat.killEntity." + EntityUpperCamelCase[i]);
             statFile = statFile.replaceAll("stat.entityKilledBy.minecraft:" + EntityLowerSnakecase[i], "stat.entityKilledBy." + EntityUpperCamelCase[i]);
         }
-        // horses (and skeletons and zombies) are split into seperate entities but the horse specifically has a new name
+        // horses (and skeletons and zombies) are split into separate entities but the horse specifically has a new name
         // so this fixed that in particular
         statFile = statFile.replaceAll("stat.killEntity.EntityHorse", "stat.killEntity.Horse");
         statFile = statFile.replaceAll("stat.entityKilledBy.EntityHorse", "stat.entityKilledBy.Horse");
@@ -278,50 +284,97 @@ async function DataFixerUpper() {
             "walk_one_cm", "animals_bred", "player_kills", "minecart_one_cm", "open_shulker_box",
             "enchant_item", "mob_kills", "sneak_time", "clean_armor", "play_one_minute",
             "time_since_death", "fly_one_cm",];
+        // In 17w47a various blocks were renamed or separated into their own IDs
+        let GeneralRenamingRename = [
+            "grass_block", "oak_sapling", "oak_planks", "oak_log", "oak_leaves", "note_block", "red_bed", "powered_rail",
+            "cobweb", "grass", "dead_bush", "white_wool", "dandelion", "poppy", "moving_piston", "bricks", "oak_door",
+            "oak_sign", "cobblestone_stairs", "oak_wall_sign", "snow_block", "snow", "snow_ball", "sugar_cane", "oak_fence",
+            "carved_pumpkin", "jack_o_lantern", "repeater", "white_stained_glass", "oak_trapdoor", "infested_stone",
+            "stone_bricks", "oak_fence_gate", "lily_pad", "nether_bricks", "oak_wooden_slab", "oak_wooden_button",
+            "skeleton_skull", "comparator", "nether_quartz_ore", "white_stained_glass_pane", "acacia_leaves",
+            "acacia_log", "slime_block", "white_carpet", "sunflower", "red_sandstone_slab", "end_stone_bricks",
+            "magma_block", "white_concrete", "gray_shulker_box", "gray_glazed_terracotta",
+            "cod", "cooked_cod", "ink_sac", "pig_spawn_egg", "firework_rocket", "firework_star", "nether_brick",
+            "music_disc_13", "music_disc_cat", "music_disc_blocks", "music_disc_chirp", "music_disc_far", "music_disc_mall",
+            "music_disc_melloh", "music_disc_stal", "music_disc_strad", "music_disc_ward", "music_disc_11", "music_disc_wait"
+        ];
+        let GeneralRenamingOriginal = [
+            "grass", "sapling", "planks", "log", "leaves", "noteblock", "bed", "golden_rail", "web", "tallgrass", "deadbush",
+            "wool", "yellow_flower", "red_flower", "piston_extension", "brick_block", "wooden_door", "sign", "stone_stairs",
+            "wall_sign", "snow", "snow_block_layer", "snow_blockball", "reeds", "fence", "pumpkin", "lit_pumpkin",
+            "unpowered_repeater", "stained_glass", "trapdoor", "monster_egg", "stonebrick", "fence_gate", "waterlily",
+            "nether_brick", "wooden_slab", "wooden_button", "skull", "unpowered_comparator", "quartz_ore", "stained_glass_pane",
+            "leaves2", "log2", "slime", "carpet", "double_plant", "stone_slab2", "end_bricks", "magma", "concrete", "silver_shulker_box",
+            "silver_glazed_terracotta",
+            "fish", "cooked_fish", "dye", "spawn_egg", "fireworks", "firework_charge", "netherbrick",
+            "record_13", "record_cat", "record_blocks", "record_chirp", "record_far", "record_mall", "record_melloh", "record_stal",
+            "record_strad", "record_ward", "record_11", "record_wait"
+        ];
         let statFileJSON = JSON.stringify(JSON.parse(statFile), null, 2);
         statFile = statFileJSON;
-        let used = [], crafted = [], dropped = [], pickedup = [], killed = [], killedby = [], custom = [];
+        let used = [], broken = [], crafted = [], dropped = [], pickedup = [], mined = [], killed = [], killedby = [], custom = [];
         // Regex is a scary thing, thankfully there are braver people than me
         // https://stackoverflow.com/questions/55218064
         for (let line of statFileJSON.split(/[\r\n]+/)) {
             line = line.toLowerCase();
-            let formatedLine = line.split(".");
-            switch (formatedLine[1]) {
+            // Updates into new format, but again
+            // UpperCamelCase is lowered to work with the newly lowered line
+            // Tactically placed here to deal with pig verses pigzombie.
+            for (let i = 0; i < EntityLowerSnakecase.length; i++) {
+                line = line.replace("stat.killentity." + EntityUpperCamelCase[i].toLocaleLowerCase(), "stat.killentity." + EntityLowerSnakecase[i]);
+                line = line.replace("stat.entitykilledby." + EntityUpperCamelCase[i].toLocaleLowerCase(), "stat.entitykilledby." + EntityLowerSnakecase[i]);
+            }
+            // double quotation as to only replace the entire ID
+            for (let i = 0; i < GeneralRenamingOriginal.length; i++) {
+                line = line.replace("minecraft." + GeneralRenamingOriginal[i] + "\"", "minecraft." + GeneralRenamingRename[i] + "\"");
+            }
+            let formattedLine = line.split(".");
+            switch (formattedLine[1]) {
                 case "useitem":
                     {
-                        used.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
+                        used.push("\"minecraft:" + formattedLine[formattedLine.length - 1]);
+                        break;
+                    }
+                case "breakitem":
+                    {
+                        broken.push("\"minecraft:" + formattedLine[formattedLine.length - 1]);
                         break;
                     }
                 case "craftitem":
                     {
-                        crafted.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
+                        crafted.push("\"minecraft:" + formattedLine[formattedLine.length - 1]);
                         break;
                     }
                 case "drop":
                     {
-                        dropped.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
+                        dropped.push("\"minecraft:" + formattedLine[formattedLine.length - 1]);
                         break;
                     }
                 case "pickup":
                     {
-                        pickedup.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
+                        pickedup.push("\"minecraft:" + formattedLine[formattedLine.length - 1]);
+                        break;
+                    }
+                case "mineblock":
+                    {
+                        mined.push("\"minecraft:" + formattedLine[formattedLine.length - 1]);
                         break;
                     }
                 case "killentity":
                     {
-                        killed.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
+                        killed.push("\"minecraft:" + formattedLine[formattedLine.length - 1]);
                         break;
                     }
                 case "entitykilledby":
                     {
-                        killedby.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
+                        killedby.push("\"minecraft:" + formattedLine[formattedLine.length - 1]);
                         break;
                     }
                 default:
                     {
-                        if (!formatedLine[0].includes("stat"))
+                        if (!formattedLine[0].includes("stat"))
                             break;
-                        custom.push("\"minecraft:" + formatedLine[formatedLine.length - 1]);
+                        custom.push("\"minecraft:" + formattedLine[formattedLine.length - 1]);
                     }
             }
         }
@@ -345,6 +398,13 @@ async function DataFixerUpper() {
             flatteningStatFile = flatteningStatFile.substring(0, flatteningStatFile.length - 1);
             flatteningStatFile += "},";
         }
+        if (broken.length) {
+            flatteningStatFile += "\"minecraft:broken\": {";
+            broken.forEach(element => { flatteningStatFile += element; });
+            // Removes extra comma at the end off each section
+            flatteningStatFile = flatteningStatFile.substring(0, flatteningStatFile.length - 1);
+            flatteningStatFile += "},";
+        }
         if (crafted.length) {
             flatteningStatFile += "\"minecraft:crafted\": {";
             crafted.forEach(element => { flatteningStatFile += element; });
@@ -362,6 +422,13 @@ async function DataFixerUpper() {
         if (pickedup.length) {
             flatteningStatFile += "\"minecraft:pickup_up\": {";
             pickedup.forEach(element => { flatteningStatFile += element; });
+            // Removes extra comma at the end off each section
+            flatteningStatFile = flatteningStatFile.substring(0, flatteningStatFile.length - 1);
+            flatteningStatFile += "},";
+        }
+        if (mined.length) {
+            flatteningStatFile += "\"minecraft:mined\": {";
+            mined.forEach(element => { flatteningStatFile += element; });
             // Removes extra comma at the end off each section
             flatteningStatFile = flatteningStatFile.substring(0, flatteningStatFile.length - 1);
             flatteningStatFile += "},";
