@@ -2,15 +2,14 @@
 function start() {
     const dropdown = document.querySelectorAll(".dropdown");
     dropdown.forEach((fix) => {
-        fix.addEventListener("click", (e) => { ToggleDropdown(fix); });
-        ToggleDropdown(fix);
+        fix.addEventListener("click", (e) => { ToggleDropdown(fix, !fix.parentElement.children[1].checkVisibility()); });
+        ToggleDropdown(fix, !fix.checkVisibility());
     });
 }
-function ToggleDropdown(Dropdown) {
+function ToggleDropdown(Dropdown, Visibility) {
     // Header text toggle
     let HeaderText = Dropdown.parentElement.children[0];
-    let FixContainer = Dropdown.parentElement;
-    if (!Dropdown.parentElement.children[1].checkVisibility()) {
+    if (Visibility) {
         HeaderText.innerHTML = HeaderText.innerHTML.substring(5, HeaderText.innerHTML.length);
         HeaderText.style.textDecoration = "underline";
         HeaderText.style.marginTop = "15px";
@@ -23,8 +22,20 @@ function ToggleDropdown(Dropdown) {
     // Toggles visibility of all elements inside the container
     for (let i = 1; i < Dropdown.parentElement.children.length; i++) {
         let element = Dropdown.parentElement.children[i];
-        element.style.display = element.checkVisibility() ? "none" : "";
+        element.style.display = Visibility ? "" : "none";
     }
+}
+let OverrideVis = false;
+function ToggleAll() {
+    OverrideVis = !OverrideVis;
+    document.getElementById("openAll").setAttribute("src", "Explain_" + (OverrideVis ? "on" : "off") + ".png");
+    document.getElementById("openAll").setAttribute("title", (OverrideVis ? "Close" : "Open") + " All Explanations");
+    const dropdown = document.querySelectorAll(".dropdown");
+    dropdown.forEach((fix) => {
+        if (OverrideVis != fix.parentElement.children[1].checkVisibility()) {
+            ToggleDropdown(fix, OverrideVis);
+        }
+    });
 }
 let TargetVer;
 let statFileName;

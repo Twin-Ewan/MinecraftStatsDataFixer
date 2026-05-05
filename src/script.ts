@@ -1,19 +1,16 @@
-function start()
-{
+function start() {
     const dropdown = document.querySelectorAll(".dropdown");
 
     dropdown.forEach((fix) => {
-        fix.addEventListener("click", (e) => {ToggleDropdown(fix)});
-        ToggleDropdown(fix);
+        fix.addEventListener("click", (e) => {ToggleDropdown(fix, !fix.parentElement!.children[1].checkVisibility())});
+        ToggleDropdown(fix, !fix.checkVisibility());
     });
 }
 
-function ToggleDropdown(Dropdown: Element)
-{
+function ToggleDropdown(Dropdown: Element, Visibility: Boolean) {
     // Header text toggle
     let HeaderText: HTMLElement = Dropdown.parentElement!.children[0] as HTMLElement;
-    let FixContainer: HTMLElement = Dropdown.parentElement as HTMLElement;
-    if(!Dropdown.parentElement!.children[1].checkVisibility())
+    if(Visibility)
     {
         HeaderText.innerHTML = HeaderText.innerHTML.substring(5, HeaderText.innerHTML.length);
         HeaderText.style.textDecoration = "underline";
@@ -30,12 +27,27 @@ function ToggleDropdown(Dropdown: Element)
     for(let i = 1; i < Dropdown.parentElement!.children.length; i++)
     {
         let element = Dropdown.parentElement!.children[i] as HTMLElement;
-        element.style.display = element.checkVisibility() ? "none" : "";
+        element.style.display = Visibility ? "" : "none";
     }
 }
 
-let TargetVer: number;
+let OverrideVis: Boolean = false;
+function ToggleAll() {
+    OverrideVis = ! OverrideVis;
 
+    document.getElementById("openAll")!.setAttribute("src", "Explain_" + (OverrideVis ? "on" : "off") + ".png");
+    document.getElementById("openAll")!.setAttribute("title", (OverrideVis ? "Close" : "Open") + " All Explanations");
+    
+    const dropdown = document.querySelectorAll(".dropdown");
+    dropdown.forEach((fix) => {
+        if(OverrideVis != fix.parentElement!.children[1].checkVisibility())
+        {
+            ToggleDropdown(fix, OverrideVis);
+        }
+    });
+}
+
+let TargetVer: number;
 let statFileName: string;
 
 async function filePreview() {
@@ -55,8 +67,7 @@ async function filePreview() {
     Preview.style.overflowX = "auto";
 }
 
-async function LoadFile()
-{
+async function LoadFile() {
     TargetVer = (document.getElementById("targetVer") as HTMLSelectElement).selectedIndex;
 
     var files = (document.getElementById("fileInput") as HTMLInputElement).files;
