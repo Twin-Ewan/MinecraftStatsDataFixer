@@ -319,18 +319,6 @@ async function DataFixerUpper()
     // DataVersion was added in 17w47a meaning any file that includes it is already in the new format.
     if(VerIndex > 6 && !statFile.includes("DataVersion")) // Flattening rework (17w47a)
     {
-        let GeneralStatUpper: string[] = ["beaconInteraction", "cakeSlicesEaten",
-            "horseOneCm", "pigOneCm", "leaveGame", "bannerCleaned", "swimOneCm",
-            "climbOneCm", "enderchestOpened", "hopperInspected", "cauldronFilled",
-            "trappedChestTriggered", "furnaceInteraction", "talkedToVillager",
-            "noteblockPlayed", "sprintOneCm", "deaths", "drop", "fishCaught", "diveOneCm",
-            "chestOpened", "recordPlayed", "jump", "fallOneCm", "crouchOneCm", 
-            "craftingTableInteraction", "dropperInspected", "boatOneCm", "brewingstandInteraction",
-            "dispenserInspected", "tradedWithVillager", "noteblockTuned", "cauldronUsed",
-            "damageDealt", "sleepInBed", "flowerPotted", "walkOneCm", "animalsBred", "playerKills",
-            "minecartOneCm", "shulkerBoxOpened", "itemEnchanted", "mobKills", "sneakTime",
-            "armorCleaned", "playOneMinute", "timeSinceDeath", "flyOneCm"]
-
         let GeneralStatLower: string[] = ["interact_with_beacon", "eat_cake_slice",
             "horse_one_cm", "pig_one_cm", "leave_game", "clean_banner", "swim_one_cm",
             "climb_one_cm", "open_enderchest", "inspect_hopper", "fill_cauldron",
@@ -339,10 +327,23 @@ async function DataFixerUpper()
             "walk_under_water_one_cm", "open_chest", "play_record", "jump", "fall_one_cm",
             "crouch_one_cm", "interact_with_crafting_table", "inspect_dropper", "boat_one_cm",
             "interact_with_brewingstand", "inspect_dispenser", "traded_with_villager",
-            "tune_noteblock", "use_cauldron", "damage_dealt", "sleep_in_bed", "pot_flower",
-            "walk_one_cm", "animals_bred", "player_kills", "minecart_one_cm", "open_shulker_box",
-            "enchant_item", "mob_kills", "sneak_time", "clean_armor", "play_one_minute", 
-            "time_since_death", "fly_one_cm",]
+            "tune_noteblock", "use_cauldron", "damage_dealt", "damage_taken", "sleep_in_bed", 
+            "pot_flower", "walk_one_cm", "animals_bred", "player_kills", "minecart_one_cm", 
+            "open_shulker_box", "enchant_item", "mob_kills", "sneak_time", "clean_armor", 
+            "play_one_minute", "time_since_death", "fly_one_cm",]
+
+        let GeneralStatUpper: string[] = ["beaconInteraction", "cakeSlicesEaten",
+            "horseOneCm", "pigOneCm", "leaveGame", "bannerCleaned", "swimOneCm",
+            "climbOneCm", "enderchestOpened", "hopperInspected", "cauldronFilled",
+            "trappedChestTriggered", "furnaceInteraction", "talkedToVillager",
+            "noteblockPlayed", "sprintOneCm", "deaths", "drop", "fishCaught", "diveOneCm",
+            "chestOpened", "recordPlayed", "jump", "fallOneCm", "crouchOneCm", 
+            "craftingTableInteraction", "dropperInspected", "boatOneCm", "brewingstandInteraction",
+            "dispenserInspected", "tradedWithVillager", "noteblockTuned", "cauldronUsed",
+            "damageDealt", "damageTaken", "sleepInBed", "flowerPotted", "walkOneCm", "animalsBred", 
+            "playerKills", "minecartOneCm", "shulkerBoxOpened", "itemEnchanted", "mobKills", "sneakTime",
+            "armorCleaned", "playOneMinute", "timeSinceDeath", "flyOneCm"]
+
 
         // In 17w47a various blocks were renamed or separated into their own IDs
         let GeneralRenamingRename: string[] = [
@@ -350,7 +351,7 @@ async function DataFixerUpper()
             "cobweb", "grass", "dead_bush", "white_wool", "dandelion", "poppy", "moving_piston", "bricks", "oak_door", 
             "oak_sign", "cobblestone_stairs", "oak_wall_sign", "snow_block", "snow", "snow_ball", "sugar_cane", "oak_fence",
             "carved_pumpkin", "jack_o_lantern", "repeater", "white_stained_glass", "oak_trapdoor", "infested_stone",
-            "stone_bricks", "oak_fence_gate", "lily_pad", "nether_bricks", "oak_wooden_slab", "oak_wooden_button",
+            "stone_bricks", "oak_fence_gate", "lily_pad", "nether_bricks", "oak_slab", "oak_button",
             "skeleton_skull", "comparator", "nether_quartz_ore", "white_stained_glass_pane", "acacia_leaves",
             "acacia_log", "slime_block", "white_carpet", "sunflower", "red_sandstone_slab", "end_stone_bricks",
             "magma_block", "white_concrete", "gray_shulker_box", "gray_glazed_terracotta",
@@ -377,10 +378,13 @@ async function DataFixerUpper()
         ]
 
         let statFileJSON = JSON.stringify(JSON.parse(statFile), null, 2);
-        statFile = statFileJSON;
 
         let used: string[] = [], broken: string[] = [], crafted: string[] = [], dropped: string[] = [], pickedup: string[] = [], 
         mined: string[] = [], killed: string[] = [], killedby: string[] = [], custom: string[] = [];
+
+        // adds sacrificial character to the last entry as to not delete the final character
+        // if not it'd either removes the value making the JSON invalid or divides it by 10.
+        statFileJSON = statFileJSON.replace("\n}", "#\n}");
 
         // Regex is a scary thing, thankfully there are braver people than me
         // https://stackoverflow.com/questions/55218064
@@ -472,7 +476,7 @@ async function DataFixerUpper()
             {
                 for(let j = 0; j < GeneralStatLower.length; j++)
                 {
-                    custom[i] = custom[i].replaceAll(GeneralStatUpper[j].toLowerCase(), GeneralStatLower[j]);
+                    custom[i] = custom[i].replace(GeneralStatUpper[j].toLowerCase(), GeneralStatLower[j]);
                 }
 
                 flatteningStatFile += custom[i];
@@ -575,6 +579,7 @@ async function DataFixerUpper()
     if(VerIndex > 7) // hardened clay into terracota (17w47b)
     {
         statFile = statFile.replaceAll("minecraft:hardened_clay", "minecraft:terracotta");
+        statFile = statFile.replace("\"DataVersion\": 1451", "\"DataVersion\": 1452"); // Shout out to 18w19a which datafixer deletes any stat file from 17w47a (data ver 1451)
     }
 
     if(VerIndex > 8) // turtle shell piece into scute (18w07b)
