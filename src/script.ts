@@ -307,7 +307,7 @@ async function DataFixerUpper()
 
     if(VerIndex > 4 && VerIndex < 10) // shulker box ID changed to "purple" though in 18w10b they added a undyed version
     {
-        statFile = statFile.replaceAll("shulker_box", "purple_shulker_box");
+        statFile = statFile.replaceAll("minecraft.shulker_box", "minecraft.purple_shulker_box");
     }
 
     if(VerIndex > 5) // 1.11.1-pre - 17w46a
@@ -349,31 +349,31 @@ async function DataFixerUpper()
         let GeneralRenamingRename: string[] = [
             "grass_block", "oak_sapling", "oak_planks", "oak_log", "oak_leaves", "note_block", "red_bed", "powered_rail",
             "cobweb", "grass", "dead_bush", "white_wool", "dandelion", "poppy", "moving_piston", "bricks", "oak_door", 
-            "oak_sign", "cobblestone_stairs", "oak_wall_sign", "snow_block", "snow", "snow_ball", "sugar_cane", "oak_fence",
-            "carved_pumpkin", "jack_o_lantern", "repeater", "white_stained_glass", "oak_trapdoor", "infested_stone",
-            "stone_bricks", "oak_fence_gate", "lily_pad", "nether_bricks", "oak_slab", "oak_button",
-            "skeleton_skull", "comparator", "nether_quartz_ore", "white_stained_glass_pane", "acacia_leaves",
-            "acacia_log", "slime_block", "white_carpet", "sunflower", "red_sandstone_slab", "end_stone_bricks",
-            "magma_block", "white_concrete", "gray_shulker_box", "gray_glazed_terracotta",
+            "cobblestone_stairs", "snow_block", "snow", "sugar_cane", "oak_fence", "carved_pumpkin", 
+            "jack_o_lantern", "repeater", "white_stained_glass", "oak_trapdoor", "infested_stone","stone_bricks", 
+            "oak_fence_gate", "lily_pad", "nether_bricks", "oak_slab", "oak_button", "skeleton_skull", "comparator", 
+            "nether_quartz_ore", "white_stained_glass_pane", "acacia_leaves", "acacia_log", "slime_block", 
+            "white_carpet", "sunflower", "red_sandstone_slab", "end_stone_bricks", "magma_block",
+            "white_concrete", "gray_shulker_box", "gray_glazed_terracotta",
 
             "cod", "cooked_cod", "ink_sac", "pig_spawn_egg", "firework_rocket", "firework_star", "nether_brick",
 
             "music_disc_13", "music_disc_cat", "music_disc_blocks", "music_disc_chirp", "music_disc_far", "music_disc_mall",
-            "music_disc_melloh", "music_disc_stal", "music_disc_strad", "music_disc_ward", "music_disc_11", "music_disc_wait"
+            "music_disc_mellohi", "music_disc_stal", "music_disc_strad", "music_disc_ward", "music_disc_11", "music_disc_wait"
         ]
 
         let GeneralRenamingOriginal: string[] = [
             "grass", "sapling", "planks", "log", "leaves", "noteblock", "bed", "golden_rail", "web", "tallgrass", "deadbush", 
-            "wool", "yellow_flower", "red_flower", "piston_extension", "brick_block", "wooden_door", "sign", "stone_stairs", 
-            "wall_sign", "snow", "snow_block_layer", "snow_blockball", "reeds", "fence", "pumpkin", "lit_pumpkin", 
+            "wool", "yellow_flower", "red_flower", "piston_extension", "brick_block", "wooden_door", "stone_stairs",
+            "snow", "snow_layer", "snow_ball", "reeds", "fence", "pumpkin", "lit_pumpkin", 
             "unpowered_repeater", "stained_glass", "trapdoor", "monster_egg", "stonebrick", "fence_gate", "waterlily", 
             "nether_brick", "wooden_slab", "wooden_button", "skull", "unpowered_comparator", "quartz_ore", "stained_glass_pane",
-            "leaves2", "log2", "slime", "carpet", "double_plant", "stone_slab2", "end_bricks", "magma", "concrete", "silver_shulker_box",
-            "silver_glazed_terracotta",
+            "leaves2", "log2", "slime", "carpet", "double_plant", "stone_slab2", "end_bricks", "magma", 
+            "concrete", "silver_shulker_box", "silver_glazed_terracotta",
 
             "fish", "cooked_fish", "dye", "spawn_egg", "fireworks", "firework_charge", "netherbrick",
             
-            "record_13", "record_cat", "record_blocks", "record_chirp", "record_far", "record_mall", "record_melloh", "record_stal",
+            "record_13", "record_cat", "record_blocks", "record_chirp", "record_far", "record_mall", "record_mellohi", "record_stal",
             "record_strad", "record_ward", "record_11", "record_wait"
         ]
 
@@ -529,7 +529,7 @@ async function DataFixerUpper()
 
         if(pickedup.length)
         {
-            flatteningStatFile += "\"minecraft:pickup_up\": {";
+            flatteningStatFile += "\"minecraft:picked_up\": {";
             pickedup.forEach(element => {flatteningStatFile += element;});
 
             // Removes extra comma at the end off each section
